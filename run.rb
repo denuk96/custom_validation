@@ -2,7 +2,6 @@ require './custom_validator.rb'
 require 'byebug'
 
 class User
-  extend CustomValidator
   include CustomValidator
   attr_accessor :email, :number, :owner
 
@@ -19,5 +18,5 @@ end
 
 owner = User.new(email: 'bla2')
 user = User.new(email: 'bla', number: '3011222', owner: owner)
+User.validators
 user.validate!
-p '123'

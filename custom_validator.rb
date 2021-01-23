@@ -2,25 +2,30 @@ require './validation_methods'
 
 module CustomValidator
   include ValidationMethods
-  attr_accessor :validators, :errors
+  attr_accessor :errors
 
-  def validate field_name, validator
-    self.class_eval do
-      @validators ||= {}
-      @validators[field_name] = validator
+  def self.included(klass)
+    klass.class_eval do
+      define_singleton_method :validate do |field_name, validator|
+        @validators ||= {}
+        @validators[field_name] = validator
+      end
+
+      define_singleton_method :validators do
+         @validators || {}
+      end
     end
-  end
 
-  def validate!
-    byebug
-    self.class.validators.each do |validator|
-
+    klass.define_method :validate! do
+      klass.validators.each do |validator|
+        сheck(validator[0], validator[1])
+      end
     end
   end
 
   private
 
-  def сheck field_name, validator
+  def сheck field_name, validator, raise_error = true
     validator_name = validator.keys[0]
     valid_condition = validator[validator_name]
     field_value = get_field_value field_name
@@ -34,7 +39,7 @@ module CustomValidator
   end
 
   def validator_exist? validator_name
-    raise  "unknown instance #{validator_name}" unless ValidationMethods.private_instance_methods.include? validator_name
+    raise "unknown instance #{validator_name}" unless ValidationMethods.private_instance_methods.include? validator_name
   end
 
   def get_field_value field_name
