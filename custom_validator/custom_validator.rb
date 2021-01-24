@@ -11,13 +11,13 @@ module CustomValidator
       end
 
       define_singleton_method :validators do
-         @validators || {}
+        @validators || {}
       end
     end
 
     klass.define_method :validate! do
       klass.validators.each do |validator|
-        сheck(validator[0], validator[1])
+        check(validator[0], validator[1])
       end
       true
     end
@@ -25,7 +25,7 @@ module CustomValidator
     klass.define_method :valid? do
       @errors = []
       klass.validators.each do |validator|
-        сheck(validator[0], validator[1], false)
+        check(validator[0], validator[1], false)
       end
       @errors.empty?
     end
@@ -37,7 +37,7 @@ module CustomValidator
 
   private
 
-  def сheck field_name, validator, raise = true
+  def check(field_name, validator, raise = true)
     validator_name = validator.keys[0]
     valid_condition = validator[validator_name]
     field_value = get_field_value field_name
@@ -46,23 +46,24 @@ module CustomValidator
     validating(field: field_name, method: validator_name, valid_condition: valid_condition, value: field_value, raise: raise)
   end
 
-  def valid_instance? field_name
+  def valid_instance?(field_name)
     raise "unknown instance #{field_name}" unless instance_variable_defined? "@#{field_name}"
   end
 
-  def validator_exist? validator_name
+  def validator_exist?(validator_name)
     raise "unknown instance #{validator_name}" unless ValidationMethods.private_instance_methods.include? validator_name
   end
 
-  def get_field_value field_name
+  def get_field_value(field_name)
     send field_name
   end
 
-  def validating args
+  def validating(args)
     result_valid = send args[:method].to_s, args
     return if result_valid
+
     message = "#{args[:field]} is invalid, expected #{args[:method]} to matching #{args[:valid_condition]}"
-    self.errors << message
+    errors << message
     raise(message) if args[:raise]
   end
 end

@@ -1,18 +1,17 @@
 module ValidationMethods
+  private
 
-  private 
-
-  def presence args
+  def presence(args)
     is_present = args[:value].nil? || args[:value].empty?
     is_present != args[:valid_condition]
   end
 
-  def format args
+  def format(args)
     regex = args[:valid_condition]
     !!regex.match(args[:value])
   end
 
-  def type args
+  def type(args)
     args[:value].class == args[:valid_condition]
   end
 end

@@ -30,7 +30,7 @@ p '================='
 p 'validating invalid_user1'
 begin
   invalid_user1.validate!
-rescue => e
+rescue StandardError => e
   p "invalid_user1 raise: #{e}"
 end
 p invalid_user1.valid?
@@ -41,7 +41,7 @@ p '================='
 p 'validating invalid_user2'
 begin
   invalid_user2.validate!
-rescue => e
+rescue StandardError => e
   p "invalid_user2 raise: #{e}"
 end
 p invalid_user2.valid?
