@@ -1,5 +1,5 @@
-require_relative './validators.rb'
 require_relative './publick_methods.rb'
+require_relative './class_methods.rb'
 
 module CustomValidator
   module Base

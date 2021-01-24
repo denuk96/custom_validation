@@ -1,4 +1,4 @@
-require_relative './class_methods.rb'
+require_relative './validators.rb'
 
 module CustomValidator
   module ValidationProcessor
