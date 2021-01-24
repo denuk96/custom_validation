@@ -1,6 +1,6 @@
 module ValidationMethods
 
-  private
+  private 
 
   def presence args
     is_present = args[:value].nil? || args[:value].empty?

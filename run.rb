@@ -1,5 +1,4 @@
-require './custom_validator.rb'
-require 'byebug'
+require './custom_validator/custom_validator.rb'
 
 class User
   include CustomValidator

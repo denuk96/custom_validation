@@ -1,4 +1,4 @@
-require './validation_methods'
+require_relative './validation_methods.rb'
 
 module CustomValidator
   include ValidationMethods
