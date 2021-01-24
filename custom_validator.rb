@@ -2,7 +2,6 @@ require './validation_methods'
 
 module CustomValidator
   include ValidationMethods
-  attr_accessor :errors
 
   def self.included(klass)
     klass.class_eval do
@@ -20,18 +19,31 @@ module CustomValidator
       klass.validators.each do |validator|
         сheck(validator[0], validator[1])
       end
+      true
     end
+
+    klass.define_method :valid? do
+      @errors = []
+      klass.validators.each do |validator|
+        сheck(validator[0], validator[1], false)
+      end
+      @errors.empty?
+    end
+  end
+
+  def errors
+    @errors ||= []
   end
 
   private
 
-  def сheck field_name, validator, raise_error = true
+  def сheck field_name, validator, raise = true
     validator_name = validator.keys[0]
     valid_condition = validator[validator_name]
     field_value = get_field_value field_name
     valid_instance? field_name
     validator_exist? validator_name
-    validating(field: field_name, method: validator_name, valid_condition: valid_condition, value: field_value)
+    validating(field: field_name, method: validator_name, valid_condition: valid_condition, value: field_value, raise: raise)
   end
 
   def valid_instance? field_name
@@ -46,14 +58,11 @@ module CustomValidator
     send field_name
   end
 
-  def validating args, raise_error = true
+  def validating args
     result_valid = send args[:method].to_s, args
     return if result_valid
-    message = "#{args[:field]} is invalid, expected #{args[:method]} to mathing #{args[:valid_condition]}"
-    raise_error ? raise(message) : self.errors << message
-  end
-
-  def errors
-    @errors ||= []
+    message = "#{args[:field]} is invalid, expected #{args[:method]} to matching #{args[:valid_condition]}"
+    self.errors << message
+    raise(message) if args[:raise]
   end
 end
