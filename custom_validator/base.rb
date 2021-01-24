@@ -1,13 +1,9 @@
-require_relative './methods.rb'
-require_relative './validation_processor.rb'
+require_relative './validators.rb'
+require_relative './publick_methods.rb'
 
 module CustomValidator
   module Base
-    include ValidationProcessor
+    include PublickMethods
     extend ClassMethods
-
-    def errors
-      @errors ||= []
-    end
   end
 end

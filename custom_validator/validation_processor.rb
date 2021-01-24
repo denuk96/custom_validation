@@ -2,8 +2,8 @@ require_relative './class_methods.rb'
 
 module CustomValidator
   module ValidationProcessor
-    include Methods
-    
+    include Validators
+
     private
 
     def check(field_name, validator, raise = true)
@@ -20,7 +20,7 @@ module CustomValidator
     end
 
     def validator_exist?(validator_name)
-      raise "unknown validator #{validator_name}" unless Methods.private_instance_methods.include? validator_name
+      raise "unknown validator #{validator_name}" unless Validators.private_instance_methods.include? validator_name
     end
 
     def get_field_value(field_name)

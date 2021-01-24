@@ -1,5 +1,5 @@
 module CustomValidator
-  module Methods
+  module Validators
     private
 
     def presence(args)

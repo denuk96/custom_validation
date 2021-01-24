@@ -11,21 +11,6 @@ module CustomValidator
           @validators || {}
         end
       end
-
-      klass.define_method :validate! do
-        klass.validators.each do |validator|
-          check(validator[0], validator[1])
-        end
-        true
-      end
-
-      klass.define_method :valid? do
-        @errors = []
-        klass.validators.each do |validator|
-          check(validator[0], validator[1], false)
-        end
-        @errors.empty?
-      end
     end
   end
 end
