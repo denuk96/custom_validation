@@ -51,7 +51,7 @@ module CustomValidator
   end
 
   def validator_exist?(validator_name)
-    raise "unknown instance #{validator_name}" unless ValidationMethods.private_instance_methods.include? validator_name
+    raise "unknown validator #{validator_name}" unless ValidationMethods.private_instance_methods.include? validator_name
   end
 
   def get_field_value(field_name)
