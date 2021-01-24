@@ -1,7 +1,7 @@
-require './custom_validator/custom_validator.rb'
+require './custom_validator/base.rb'
 
 class User
-  include CustomValidator
+  include CustomValidator::Base
   attr_accessor :email, :number, :owner
 
   validate :email, presence: true
